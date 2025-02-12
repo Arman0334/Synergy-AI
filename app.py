@@ -4,15 +4,15 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# Load the trained model
+
 model = joblib.load('flight_fare_prediction_model_uae.pkl')
 
-# Define the home route
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# Define the predict route
+
 @app.route('/predict', methods=['POST'])
 def predict():
     # Get form data
@@ -26,7 +26,6 @@ def predict():
     duration = float(request.form['duration'])
     days_left = int(request.form['days_left'])
 
-    # Preprocess input data
     input_data = {
         'source': [1 if source == "Sharjah" else (2 if source == "Abu Dhabi" else 0)],
         'stops': [stops],
@@ -35,7 +34,6 @@ def predict():
         'days_left': [days_left],
     }
 
-    # One-hot encode categorical variables
     airlines = ['airline_Air Arabia', 'airline_Emirates', 'airline_Etihad Airways', 'airline_Fly Dubai']
     departs = ['depart_Afternoon', 'depart_Evening', 'depart_Morning', 'depart_Night']
     arrivals = ['arrival_Afternoon', 'arrival_Evening', 'arrival_Morning', 'arrival_Night']
@@ -51,13 +49,12 @@ def predict():
     input_data[f'arrival_{arrival}'] = [1]
     input_data[f'destination_{destination}'] = [1]
 
-    # Convert to DataFrame
     input_df = pd.DataFrame(input_data)
 
-    # Make prediction
     prediction = model.predict(input_df)[0]
 
     return render_template('index.html', prediction_text=f'Predicted Fare Price: AED {prediction:.2f}')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
