@@ -1,2 +1,2 @@
 # SFAI
-# Synergy-Fare-AI
+## Synergy-Fare-AI
