@@ -57,7 +57,7 @@ def predict():
     # Make prediction
     prediction = model.predict(input_df)[0]
 
-    return render_template('index.html', prediction_text=f'Predicted Fare Price: {prediction:.2f}')
+    return render_template('index.html', prediction_text=f'Predicted Fare Price: AED {prediction:.2f}')
 
 if __name__ == "__main__":
     app.run(debug=True)
